@@ -4,6 +4,7 @@ import NotFound from "./pages/notfound";
 import Table from "./pages/table";
 import Reset from "./reset";
 import DefaultPage from "./pages/defaultpage";
+import InserPage from "./pages/insetPage";
 
 
 export function AppRouter() {
@@ -13,7 +14,8 @@ export function AppRouter() {
             <Routes>
                 <Route path="/" element={<DefaultPage/>}>
                     <Route index element={<Home/>}/>
-                    <Route path="table" element={<Table/>}/>
+                    <Route path="table/:type" element={<Table/>}/>
+                    <Route path="insert" element={<InserPage/>}/>
                 </Route>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
