@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(alunoRoute);
+app.use("/api/aluno", alunoRoute);
 
 const PORT = process.env.SERVER_PORT || 5000; 
 

@@ -3,7 +3,7 @@ import Aluno from "../models/Aluno";
 
 const router = Router();
 
-router.get("/aluno/", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const items = await Aluno.findAll();
     res.json(items);
@@ -13,7 +13,7 @@ router.get("/aluno/", async (req, res) => {
   }
 });
 
-router.post("/aluno/", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { nome, email, data_nascimento, cpf } = req.body;
     const newAluno = await Aluno.create({ nome, email, data_nascimento, cpf });
@@ -25,17 +25,20 @@ router.post("/aluno/", async (req, res) => {
 });
 
 // Entender o porquê está dando problema...
-router.put("/aluno/:id", async (req, res) => {
+
+router.put("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
     if(isNaN(id)) {
-      return res.status(404).json({message: "ID inválido!"});
+      res.status(404).json({message: "ID inválido!"})
+      return;
     }
     const { nome, email, data_nascimento, cpf} = req.body;
     const aluno = await Aluno.findByPk(id);
 
     if (!aluno) {
-      return res.status(404).json({ message: "Item não encontrado" });
+      res.status(404).json({ message: "Item não encontrado" });
+      return;
     }
 
     aluno.nome = nome;
