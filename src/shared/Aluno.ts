@@ -4,4 +4,5 @@ export default interface Aluno {
     email: string;
     data_nascimento: string;
     cpf: string;
+
 }

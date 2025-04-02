@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import sequelize from "./config/database";
 import alunoRoute from "./routes/AlunoRoutes";
 import cursoRouter from "./routes/CursoRouter"
+import disciplinaRouter from "./routes/DisciplinaRoutes";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use("/api/aluno", alunoRoute);
 app.use("/api/curso", cursoRouter);
+app.use("/api/disciplina", disciplinaRouter);
 
 const PORT = process.env.SERVER_PORT || 5000; 
 

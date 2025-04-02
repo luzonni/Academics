@@ -1,7 +1,9 @@
 import Aluno from "@shared/Aluno";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Item from "./Item";
+import ItemAluno from "./ItemAluno";
+
+
 
 export default function AlunoTable() {
     const [alunos, setAlunos] = useState<Aluno[]>();
@@ -9,7 +11,7 @@ export default function AlunoTable() {
         axios.get("http://localhost:5000/api/aluno")
         .then(response => setAlunos(response.data))
         .catch(error => {
-            setAlunos([{nome:"None", email:"none", data_nascimento:"none", cpf:"000.000.000-00",id_aluno:0}])
+            setAlunos([])
         })
     },[])
     return (
@@ -25,7 +27,10 @@ export default function AlunoTable() {
             </thead>
             <tbody>
                 {alunos?.map(aluno => {
-                    return <Item key={aluno.id_aluno} {...aluno}/>
+                    return <ItemAluno 
+                        key={aluno.id_aluno} 
+                        {...aluno}
+                    />
                 })}
             </tbody>
         </table>

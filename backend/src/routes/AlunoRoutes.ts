@@ -13,6 +13,21 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const id: number = Number(req.params.id);
+    if(isNaN(id)){
+      res.status(500).json({message: "ID não inteiro."})
+      return;
+    }
+    const aluno = await Aluno.findByPk<Aluno>(id);
+    res.json(aluno);
+  } catch (error) {
+    console.error("Erro ao buscar itens:", error);
+    res.status(500).json({ message: "Erro ao buscar itens" });
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const { nome, email, data_nascimento, cpf } = req.body;

@@ -13,6 +13,23 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+
+router.get("/:id", async (req, res) => {
+  try {
+    const id: number = Number(req.params.id);
+    if(isNaN(id)) {
+      res.status(500).json({message: "ID não inteiro q"})
+      return;
+    }
+    const items = await Curso.findByPk(id);
+    res.json(items);
+  } catch (error) {
+    console.error("Erro ao buscar itens:", error);
+    res.status(500).json({ message: "Erro ao buscar itens" });
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const { nome, carga_horaria } = req.body;
