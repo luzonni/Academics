@@ -1,9 +1,6 @@
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import AlunoTable from "./aluno";
-import CursoTable from "./curso";
-import DisciplinaTable from "./disciplina";
-import Tabler from "@components/tabela";
+import Tabler from "@components/table";
 import Aluno from "@shared/Aluno";
 import Disciplina from "@shared/Disciplina";
 import Curso from "@shared/Curso";
@@ -18,31 +15,6 @@ const TableStyle = styled.section`
     align-items: center;
     h1 {
         font-size: 2rem;
-    }
-`
-
-const TableContextStyle = styled.div`
-    table {
-        border-collapse: collapse;
-        background: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-        overflow: hidden;
-    }
-    th, td {
-        padding: 1rem 4rem;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-
-    th {
-        background: #030303;
-        color: white;
-        text-align: center;
-    }
-
-    tr:hover {
-        background: #F1EFEC;
     }
 `
 

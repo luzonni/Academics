@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import Home from "./pages/home";
 import NotFound from "./pages/notfound";
-import Table from "./pages/tabler";
+import Table from "./pages/tablesPage";
 import Reset from "./reset";
 import DefaultPage from "./pages/defaultpage";
 import InserPage from "./pages/insetPage";
