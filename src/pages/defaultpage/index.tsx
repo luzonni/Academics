@@ -1,10 +1,11 @@
 import { Outlet } from "react-router";
+import MyHeader from "../../components/myHeader";
 
 
 export default function DefaultPage() {
     return (
         <main>  
-            <h1>HEADER</h1>
+            <MyHeader/>
             <Outlet/>
         </main>
     )

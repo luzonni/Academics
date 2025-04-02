@@ -14,7 +14,7 @@ export function AppRouter() {
             <Routes>
                 <Route path="/" element={<DefaultPage/>}>
                     <Route index element={<Home/>}/>
-                    <Route path="table/:type" element={<Table/>}/>
+                    <Route path="tables" element={<Table/>}/>
                     <Route path="insert" element={<InserPage/>}/>
                 </Route>
                 <Route path="*" element={<NotFound/>}/>

@@ -1,29 +1,78 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router"
+import TABLES from "@shared/TABLES";
+import { ReactElement, useState } from "react";
+import styled from "styled-components";
+import AlunoTable from "./aluno";
+import CursoTable from "./curso";
 
-//Isso precisa ser colocado em uma pasta shared especidica com todos os tipos da tabela
-interface Aluno {
-    id_aluno: number;
-    nome: string;
-    email: string;
-    data_nascimento: string;
-    cpf: string;
+const TableStyle = styled.section`
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    h1 {
+        font-size: 2rem;
+    }
+`
+
+const TableContextStyle = styled.table`
+    table {
+        border-collapse: collapse;
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    th, td {
+        padding: 1rem 4rem;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background: #030303;
+        color: white;
+        text-align: center;
+    }
+
+    tr:hover {
+        background: #F1EFEC;
+    }
+`
+
+interface Tabler {
+    name: string;
+    type: ReactElement;
 }
 
+const types: Tabler[] = [
+    {
+        name: "aluno",
+        type: <AlunoTable/>
+    },
+    {
+        name: "curso",
+        type: <CursoTable/>
+    }
+]
+
 export default function Table() {
-    const { type } = useParams()
-    const [alunos, setAlunos] = useState<Aluno[]>();
-    useEffect(() => {
-        axios.get("http://localhost:5000/api/"+type)
-        .then(response => setAlunos(response.data))
-        .catch(error => console.error("Erro ao coletar a tabela: " + type + " erro:" + error))
-    },[])
+    const [table, setTable] = useState<number>(0); 
+    
     return (
-        <ul>
-            {alunos?.map(aluno => {
-                return <li key={aluno.id_aluno}>Aluno: {aluno.nome}</li>
-            })}
-        </ul>
+        <TableStyle>
+            <h1>Table: </h1>
+            <select name="tables" id="tables_selecter" onChange={e => setTable(e.target.selectedIndex)}>
+                {types.map((tab, index) => {
+                    return (
+                        <option value={index}>{tab.name}</option>
+                    )
+                })}
+            </select>
+            <TableContextStyle>
+                {types[table].type}
+            </TableContextStyle>
+        </TableStyle>
     )
 }

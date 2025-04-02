@@ -66,9 +66,12 @@ function FormAluno() {
                 data_nascimento: data_nascimento?.split("T")[0],
                 cpf: cpf?.replace(".","").replace(".","").replace("-","")
             });
-            console.log("Item adicionado:", response.data);
+            setNome("")
+            setData_nascimento("")
+            setEmail("")
+            setCPF("")
         } catch (error) {
-            console.error("Erro ao adicionar item:", error);
+            alert("Erro ao adicionar item: "+error);
         }
     };
 
