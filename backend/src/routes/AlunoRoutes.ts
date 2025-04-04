@@ -69,4 +69,23 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const id: number = Number(req.params.id);
+    if(isNaN(id)) {
+      res.status(500).json({message: "Valor de id invalido."})
+      return;
+    }
+    const aluno = await Aluno.findByPk(id);
+    if(aluno) {
+      await aluno.destroy();
+      res.json(aluno);
+    }else {
+      res.status(404).json({message: "Erro ao encontrar o aludo."})
+    }
+  }catch(error) {
+    res.status(500).json({message: "Erro ao deletar o item."})
+  }
+});
+
 export default router;

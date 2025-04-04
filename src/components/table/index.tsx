@@ -67,8 +67,8 @@ export default function Tabler(props: TablerProps) {
                 </tr>
             </thead>
             <tbody>
-                {props.items.map((item, index) => 
-                    <tr key={index}>
+                {props.items.map(item => 
+                    <tr key={item[0]}>
                         {item.map((value, index) => 
                             <td key={index}>{value}</td>
                         )}
