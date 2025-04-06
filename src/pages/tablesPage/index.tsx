@@ -43,7 +43,8 @@ const types: Tabler[] = [
     }
 ]
 
-function ItemToListString(item: Aluno | Disciplina | Curso) : string[] {
+async function ItemToListString(item: Aluno | Disciplina | Curso) : Promise<string[]> {
+    const values: string[] = Object.values(item).map(value => String(value));
 
     if("data_nascimento" in item && "cpf" in item) {
         const vd: string[] = item.data_nascimento.split("-");
@@ -58,38 +59,40 @@ function ItemToListString(item: Aluno | Disciplina | Curso) : string[] {
         return Object.values(aluno).map(value => String(value));
     }
 
-    if("id_curso" in item) {
+    if("id_curso" in item && values.length === 4) {
         //TODO METODO QUEBRADO
-        let curso_nome: string = "Non";
-        axios.get("http://localhost:5000/api/cursos/"+item.id_curso)
-        .then(response => {
-            curso_nome = response.data.nome;
-        })
-        const values: string[] = Object.values(item).map(value => String(value));
-        values[2] = curso_nome;
+        const response = await axios.get("http://localhost:5000/api/curso/"+item.id_curso);
+        values[2] = response.data.nome;
         return values;
     }
     
     return Object.values(item).map(value => String(value));
 }
 
+
 export default function Table() {
     const [index, setIndex] = useState<number>(0);
-    const [items, setItems] = useState<Aluno[] | Disciplina[] | Curso[]>();
+    const [values, setValues] = useState<string[][]>([]);
     
-    
-    const fetchData = () => {
+    const fetchData = async () => {
         axios.get("http://localhost:5000/api/"+types[index].name)
-        .then(response => setItems(response.data))
-        .catch(error => {
-            setItems([])
+        .then(response => {
+            if(response.data) {
+                (response.data as (Aluno | Disciplina | Curso)[]).map(item => {
+                    setValues([])
+                    ItemToListString(item)
+                    .then(response => setValues(values => [...values, response]));
+                })
+            }
+        })
+        .catch(() => {
+            setValues([])
         })
     }
 
     useEffect(() => {
         fetchData();
     }, [index]);
-
 
     const handleEditItem = (id: number) => {
         axios.get("http://localhost:5000/api/"+types[index].name+"/"+id)
@@ -130,12 +133,13 @@ export default function Table() {
                 })}
             </select>
             {
-                items && 
+                values && 
                 <Tabler 
                     columns={types[index].columns}
                     items={
-                        items.map((item) => {
-                            return ItemToListString(item); 
+                        values.map((item) => {
+                            console.log(item);
+                            return item; 
                         })
                     }
                     editItem={handleEditItem}
